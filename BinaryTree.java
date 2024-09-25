@@ -1,7 +1,8 @@
-
 /*
  * *** PLACE YOUR NAME / SECTION HERE ***
- *
+ * 
+ * Mohamed Eljerary
+ * 
  * Homework # 2 (Programming Assignment). This Java class defines a few basic
  * manipulation operations of a binary trees.
  *
@@ -9,8 +10,8 @@
  *
  */
 
-import java.util.Queue;
 import java.util.LinkedList;
+import java.util.Queue;
 
 /*
  * Class BinaryTree
@@ -224,7 +225,18 @@ public class BinaryTree {
 
         // ADD YOUR CODE HERE -- USE DEPTH FIRST SEARCH OF
         // BINARY TREE (WHICH IS BASED ON RECURSION)
-
+        if (node == null) {
+            return;
+        }
+    
+        // If node's data matches oldVal, replace it with newVal
+        if (node.data == oldVal) {
+            node.data = newVal;
+        }
+    
+        // Recursively traverse the left and right subtrees
+        replaceValueHelper(node.left, oldVal, newVal);
+        replaceValueHelper(node.right, oldVal, newVal);
     }
 
 
@@ -246,8 +258,16 @@ public class BinaryTree {
 
         // ADD YOUR CODE HERE -- USE DEPTH FIRST SEARCH OF
         // BINARY TREE (WHICH IS BASED ON RECURSION)
+        if(node == null) {
+            return Integer.MAX_VALUE;
+        }
 
-        return Integer.MAX_VALUE;
+        // Get the minimum of the current node, the left subtree, and the right subtree
+        int leftMin = findMinHelper(node.left);
+        int rightMin = findMinHelper(node.right);
+
+        // Return the smallest value among the current node, leftMin, and rightMin
+        return Math.min(node.data, Math.min(leftMin, rightMin));
     }
 
 
@@ -271,8 +291,26 @@ public class BinaryTree {
 
         // return -1; // RECALL, IF TREE IS EMPTY, RETURN -1
 
+        // If the node is null, it means we've reached an empty subtree, return 0 for counting purposes.
+        if (node == null) {
+            return 0; // No nodes greater than val in an empty subtree.
+        }
 
-        return -1;
+        // Recursively check the left and right subtrees.
+        int leftCount = nodesGTHelper(node.left, val);
+        int rightCount = nodesGTHelper(node.right, val);
+
+        // If either subtree is empty (and we're starting from the root), return -1.
+        // This is a safeguard for returning -1 only if the tree itself is empty.
+        if (root == null) {
+            return -1;
+        }
+
+        // Count the current node if its value is greater than val.
+        int count = (node.data > val) ? 1 : 0;
+
+        // Return the total count from left, right subtrees, and the current node.
+        return leftCount + rightCount + count;
     }
 
 
@@ -302,7 +340,7 @@ public class BinaryTree {
         return (double) sumAndCount[0] / sumAndCount[1];
     }
 
-    private int[] averageHelper(Node n) {
+    private int[] averageHelper(Node n) { //wtf is n //it is just a name for it
 
         // ADD YOUR CODE HERE -- USE DEPTH FIRST SEARCH OF
         // BINARY TREE (WHICH IS BASED ON RECURSION)
@@ -311,6 +349,19 @@ public class BinaryTree {
         // COUNT LOCATIONS IN THE RETURNED ARRAY AS SHOWN BELOW, ELSE
         // THE 'SUM' IS RETURNED IN INDEX LOCATION 0, AND COUNT IS LOCATION 1
 
-        return new int[]{0, 0};
+        if(n == null) {
+            return new int[]{0, 0};
+        }
+
+        // Recursively calculate the sum and count for the left and right subtrees
+        int[] left = averageHelper(n.left);
+        int[] right = averageHelper(n.right);
+
+        // The current node contributes to the sum and increases the node count by 1
+        int sum = left[0] + right[0] + n.data; // Sum of left + right + current node
+        int count = left[1] + right[1] + 1;    // Count of left + right + current node
+
+        // Return an array with the total sum and total count
+        return new int[]{sum, count};
     }
-}
+} 
