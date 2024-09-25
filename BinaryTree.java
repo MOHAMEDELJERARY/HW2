@@ -1,7 +1,7 @@
 /*
  * *** PLACE YOUR NAME / SECTION HERE ***
  * 
- * Mohamed Eljerary
+ * Mohamed Eljerary / COMP 272 002
  * 
  * Homework # 2 (Programming Assignment). This Java class defines a few basic
  * manipulation operations of a binary trees.
